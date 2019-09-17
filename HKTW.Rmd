@@ -1,0 +1,96 @@
+---
+title: "Hong Kong people support Taiwan independence"
+author: "Chiayu"
+date: "SEP 2019"
+output: 
+  html_document:
+    theme: spacelab
+    toc: yes
+    toc_depth: 3
+    toc_float:
+      collapsed: false
+---
+
+<style>
+
+body {
+    color: #333333;
+    font-size: 14px;
+}
+
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE)
+library(XML)
+library(httr)
+library(rvest)
+library(xml2)
+library(dplyr)
+library(lubridate)
+library(stringr)
+library(plotly)
+```
+
+###access data using rvest
+
+
+```{r cars }
+url <- "https://www.pori.hk/nationalissues/taiwan-independence"
+df <- url %>%
+  read_html()%>%
+  html_nodes(xpath = '//*[@id=\"block-yui_3_17_2_1_1563182649066_3794\"]/div/div[2]/table')%>%
+  html_table()
+PORI_data <- df[[1]]
+str(PORI_data)
+colnames(PORI_data) <- c("Date", "Total Sample","Sub-sample","Support","Oppose","DKnow","Total","Net value")
+
+```
+
+###clean
+
+```{r pressure}
+clean <- PORI_data %>%
+  slice(-1)%>%
+  mutate(Date = sub(".*-","",Date))%>%
+  mutate(Date = str_replace_all(Date,"/1/","/01/"))%>%
+  mutate(Date = str_replace_all(Date,"/2/","/02/"))%>%
+  mutate(Date = str_replace_all(Date,"/3/","/03/"))%>%
+  mutate(Date = str_replace_all(Date,"/4/","/04/"))%>%
+  mutate(Date = str_replace_all(Date,"/5/","/05/"))%>%
+  mutate(Date = str_replace_all(Date,"/6/","/06/"))%>%
+  mutate(Date = str_replace_all(Date,"/7/","/07/"))%>%
+  mutate(Date = str_replace_all(Date,"/8/","/08/"))%>%
+  mutate(Date = str_replace_all(Date,"/9/","/09/"))%>%
+  mutate(Date = str_replace_all(Date,"/1/","/01/"))
+clean$Date <- as.POSIXct(strptime(clean$Date,"%e/%m/%Y"))
+clean$Support <- sub("%","",clean$Support)%>%as.numeric()
+clean$Oppose <- sub("%","",clean$Oppose)%>%as.numeric()
+clean$DKnow <- sub("%","",clean$DKnow)%>%as.numeric()
+#clean <- clean%>%drop_na()
+
+```
+
+###plot
+```{r }
+#clean$Date <- factor(clean$Date, levels = clean[["Date"]])
+#clean$Date <- as.Date(clean$Date)
+p <- plot_ly(x = ~clean$Date, y = clean$Support, mode = 'lines', type = 'scatter', name = '支持',line = list(color = '#FF7F0E') )%>%
+  add_trace(y = ~clean$Oppose, name = '反對', line = list(color = 'rgb(22, 96, 167)')) %>%
+  add_trace(y = ~clean$DKnow, name = '無所謂', line = list(color = '#2CA02C'),opacity=0.39) %>%
+  layout(title = list(x = 0.5, font = list(size = 24, family = "Ariel"), 
+               text = "Hong Kong people support Taiwan independence"),
+         xaxis = list(title = "Years"),
+         yaxis = list (title = "%"),
+         plot_bgcolor = "rgb(247, 247, 247)", 
+         paper_bgcolor = "rgb(247, 247, 247)",
+         legend = list(x = 1.02, y = 1.02), 
+         margin = list(t = 102)
+         )
+
+#save(clean,p,file = "hktw.rda")
+load(file = "hktw.rda")
+p
+
+```
+
