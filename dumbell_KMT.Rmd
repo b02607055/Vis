@@ -1,0 +1,104 @@
+---
+title: "graphic_dumbell"
+output:
+  html_document:
+    highlight: zenburn
+    number_sections: yes
+    theme: cerulean
+    toc: yes
+editor_options:
+  chunk_output_type: inline
+---
+<style>
+strong{
+    color:dimgrey;
+}
+
+li code{
+    color: dimgrey;
+
+}
+.sourceCode{
+    margin-bottom: 0px;
+}
+pre{
+    border-radius: 0;
+}
+</style>
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+# devtools::install_github("hrbrmstr/ggalt")
+library(ggplot2)
+library(ggalt)
+library(dplyr)
+library(readr)
+theme_set(theme_classic())
+```
+
+# dumbell
+
+geom_dumbell can't be converted into interactive ggplotly
+
+```{r cars}
+
+mayor <- read_csv("mayor.csv")
+mayor <- mayor%>%
+  group_by(area)%>%
+  mutate(min = min(pct_2014,pct_2018))%>%
+  arrange(-min)
+mayor$area <- factor(mayor$area, levels = mayor$area[order(-mayor$min)])
+
+gg <- ggplot(mayor, aes(x=pct_2014, xend=pct_2018, y=area,yend=area, group=area)) +
+  geom_segment(color="#b2b2b2", size=0.25)+
+  geom_dumbbell(color="#a3c4dc", 
+                size=1.5,
+                colour_xend="#0000CD",
+                colour_x = "#F5FCFF") + 
+  scale_y_discrete(expand = waiver())+
+  labs(x=NULL, #把xy軸名稱拿掉
+       y=NULL, 
+       title="各縣市長藍營候選人兩屆得票率變化", 
+       subtitle="2016 vs 2019", 
+       caption="Source: 中選會") +
+  theme(plot.title = element_text(hjust=0.5, face="bold"),
+        plot.background=element_rect(fill="#f7f7f7"),
+        panel.background=element_rect(fill="#f7f7f7"),
+        panel.grid.minor=element_blank(),
+        panel.grid.major.y=element_blank(),
+        panel.grid.major.x=element_line(),
+        axis.ticks=element_blank(),
+        legend.position="top",
+        panel.border=element_blank(),
+        text = element_text(family = "Gen Jyuu GothicX"),
+        axis.text.y = element_text(size = 10)
+        )
+plot(gg)
+
+
+```
+
+
+```{r}
+g <- ggplot(data=mayor, aes(x=pct_2014, xend=pct_2018, y=area,yend=area, group=area))+ 
+  geom_segment(color="#b2b2b2", size=0.25)+
+  geom_dumbbell(size=2.5,color="#a3c4dc",colour_xend="#0000CD",colour_x = "#DBF3FA")+ geom_text(data=filter(mayor, area=="臺南市"),
+                     aes(x=pct_2014, y=area, label="2014"),
+                     color="#DBF3FA", size=3, vjust=-2, fontface="bold", family="Gen Jyuu GothicX")+ geom_text(data=filter(mayor, area=="臺南市"),
+                     aes(x=pct_2018, y=area, label="2018"),
+                     color="#0000CD", size=3, vjust=-2, fontface="bold", family="Gen Jyuu GothicX")+
+  theme(plot.title = element_text(hjust=0.5, face="bold"),
+        plot.background=element_rect(fill="#f7f7f7"),
+        panel.background=element_rect(fill="#f7f7f7"),
+        text = element_text(family = "Gen Jyuu GothicX"),
+        axis.text.y = element_text(size = 10))+
+  labs(x=NULL, #把xy軸名稱拿掉
+       y=NULL, 
+       title="各縣市長藍營候選人兩屆得票率變化", 
+       subtitle="2014 vs 2018", 
+       caption="Source: 中選會") 
+g
+
+ggsave(g ,filename = "mayor_KMT.jpg")
+```
+
+
