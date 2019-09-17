@@ -55,7 +55,7 @@ gg <- ggplot(mayor, aes(x=pct_2014, xend=pct_2018, y=area,yend=area, group=area)
                 colour_xend="#0000CD",
                 colour_x = "#F5FCFF") + 
   scale_y_discrete(expand = waiver())+
-  labs(x=NULL, #把xy軸名稱拿掉
+  labs(x=NULL, 
        y=NULL, 
        title="各縣市長藍營候選人兩屆得票率變化", 
        subtitle="2016 vs 2019", 
@@ -91,7 +91,7 @@ g <- ggplot(data=mayor, aes(x=pct_2014, xend=pct_2018, y=area,yend=area, group=a
         panel.background=element_rect(fill="#f7f7f7"),
         text = element_text(family = "Gen Jyuu GothicX"),
         axis.text.y = element_text(size = 10))+
-  labs(x=NULL, #把xy軸名稱拿掉
+  labs(x=NULL,
        y=NULL, 
        title="各縣市長藍營候選人兩屆得票率變化", 
        subtitle="2014 vs 2018", 
