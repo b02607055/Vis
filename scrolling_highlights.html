@@ -1,0 +1,87 @@
+<style>
+    .container {
+        width: 60%;
+        margin: 0 auto;
+        font-size: 24px;
+        font-family: 'Noto Sans TC';
+    }
+
+    .highlight {
+        background-image: linear-gradient(90deg, #fff 50%, #FFEA9B 0);
+        background-position: 0;
+        background-size: 200%;
+        transition: all .8s;
+        font-weight: 400;
+    }
+
+    .spotted {
+        background-position: -100%;
+    }
+
+</style>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+
+
+
+<div class="container">
+    <p>Swiss data protection officials say children as young as four years old should be taught about data security and privacy - even before they start to use the internet.</p>
+
+
+    <p>The Canton of Zurich recently released what could be the world's first set of educational materials on data security and privacy for kindergartens and younger primary school pupils. The aim: instill an understanding of young children's right to privacy.</p>
+
+    <p>The makers of the syllabus said that a conversation about privacy with children was long overdue. And that it should go much further. For them, it is a first step in defending democracy from the threats of surveillance and disinformation.</p>
+
+
+
+    <p>Educators need to make these highly complex issues relatable to young children.<span class="highlight"> "We have to think about what kind of secrets kids might have at this age,"</span> said Jürg Fraefel, the director of the Digital Learning Center at the Zurich University of Teacher Education (PHZH). "Perhaps someone is in love, or someone is being hurt at home."</p>
+
+    <p>He led the 16-person project team staffed by the PHZH and the Data Protection Authority of the Canton of Zurich. Illustrators, designers, audio engineers, scriptwriters, and others came together to develop this data security and privacy teaching material.</p>
+
+
+    <p>The result – "Secrets Are Allowed" – is targeted at children aged four to nine, so from kindergarten,<span class="highlight"> which generally runs from age 4-6 in the canton, to mid primary school.</span> By secrets, it refers to the data that is ubiquitously collected by smartphones and other devices in the internet age.</p>
+
+
+    <p>Before the internet becomes part of their routine, educators should help them establish the correct internet usage habits, Fraefel argues.</p>
+
+
+    <p>The need for such early education in digital privacy is global. According to research by the UN Children's Agency, UNICEF, one-third of the global internet users are children, and the proportion is even higher in the Southern hemisphere.</p>
+
+    <p>In Taiwan, concerns over digital security have increased significantly in recent years.<span class="highlight"> Some 98 per cent of internet users on the island said they are concerned about threats related to being online, according to a survey by the Taiwan Network Information Center.</span></p>
+
+    <p>The report's authors warned that users relied too much on internet services and inadvertently shared too much of their personal data with them. Some 72% respondents of their survey shared the concern.</p>
+
+    <p>There is no similar children's online privacy initiative yet in Taiwan.</p>
+
+    <p>The so-called Internet of Things is increasingly penetrating every corner of life, and at every age level, allowing for unprecedented convenience and interconnectedness. But it also provides vast amounts of data points about us to largely unregulated corporations.</p>
+
+    <p>In schools, these problems are omnipresent: more surveillance cameras are installed on campus; more teachers require students to create online accounts.</p>
+
+    <p>In Switzerland's political system, many see the country's direct democracy as a possible answer to the invasion of privacy. They see the citizen as having the power to monitor government policies and to take the gatekeeper role in safeguarding their own rights. </p>
+
+    <p>They trust that such democratic control can guarantee limits to data monitoring and surveillance.</p>
+
+    <p>But what if the collection of big data exposes these civic debates to manipulation and abuse?</p>
+
+    <p>"It is not easy for people to give up on the use of all these social platforms because it's not transparent," said Bruno Baeriswyl, the top official in charge of data protection at the Canton of Zurich. "We have lost control. We can't decide anymore when this data is published."</p>
+
+
+</div>
+
+
+<script>
+    $(document).ready(function() {
+        $(window).scroll(function() {
+            var scrollTop = $(window).scrollTop();
+            var windowHeight = $(window).height();
+            $('.highlight').each(function() {
+                var spotPos = $(this).offset().top;
+                if ((scrollTop + windowHeight / 8) > spotPos) {
+                    $(this).addClass('spotted');
+                }
+            })
+        })
+    })
+
+</script>
